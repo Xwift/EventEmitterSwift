@@ -6,7 +6,7 @@ public class EventEmitter<T> {
 
   private(set) public var listeners: [EventListener<T>] = []
 
-  public init() {
+  public init (_ type: T.Type = Void.self) {
     self.queue = DispatchQueue(label: "EventEmitter.\(self.id.uuidString).queue")
   }
 
@@ -76,8 +76,8 @@ extension EventEmitter: Equatable {
   }
 }
 
-extension EventEmitter where T == Void {
-  public func emit() {
+public extension EventEmitter where T == Void {
+  func emit() {
     self.emit(())
   }
 }
