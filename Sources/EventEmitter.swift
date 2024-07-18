@@ -1,6 +1,6 @@
 import Foundation
 
-public class EventEmitter<T>: Equatable {
+public class EventEmitter<T> {
   package let id = UUID()
   private let queue: DispatchQueue
 
@@ -63,7 +63,21 @@ public class EventEmitter<T>: Equatable {
     }
   }
 
+  deinit {
+    self.queue.sync { [weak self] in
+      self?.listeners = []
+    }
+  }
+}
+
+extension EventEmitter: Equatable {
   public static func == (lhs: EventEmitter, rhs: EventEmitter) -> Bool {
     return lhs.id == rhs.id
+  }
+}
+
+extension EventEmitter where T == Void {
+  public func emit() {
+    self.emit(())
   }
 }
