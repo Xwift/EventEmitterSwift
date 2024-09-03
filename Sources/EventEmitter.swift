@@ -6,7 +6,7 @@ public class EventEmitter<T> {
 
   private(set) public var listeners: [EventListener<T>] = []
 
-  public init (_ type: T.Type = Void.self) {
+  public init () {
     self.queue = DispatchQueue(label: "EventEmitter.\(self.id.uuidString).queue")
   }
 
